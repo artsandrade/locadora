@@ -20,6 +20,7 @@ public class Cliente {
         this.nomeCliente = nomeCliente;
         this.enderecoCliente = enderecoCliente;
         this.bairroCliente = bairroCliente;
+        
     }
 
     public Cliente(){

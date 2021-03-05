@@ -6,6 +6,7 @@
 package view;
 
 import dao.ClienteDAO;
+import dao.Conexao;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -47,6 +48,10 @@ public class ClienteView extends javax.swing.JInternalFrame {
         txtEndereco = new javax.swing.JTextField();
         txtBairro = new javax.swing.JTextField();
         btnGravar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
+        btnNovo = new javax.swing.JButton();
+        btnAlterar = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Cliente");
@@ -66,6 +71,34 @@ public class ClienteView extends javax.swing.JInternalFrame {
             }
         });
 
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
+        btnNovo.setText("Novo");
+        btnNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoActionPerformed(evt);
+            }
+        });
+
+        btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,19 +112,32 @@ public class ClienteView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnGravar)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel4))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtNome)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExcluir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAlterar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
+                        .addComponent(btnNovo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGravar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtBairro))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(txtEndereco)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,13 +159,25 @@ public class ClienteView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(btnGravar)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGravar)
+                    .addComponent(btnBuscar)
+                    .addComponent(btnExcluir)
+                    .addComponent(btnNovo)
+                    .addComponent(btnAlterar))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void limpaDadosCliente(){
+        txtCodigo.setText("");
+        txtNome.setText("");
+        txtEndereco.setText("");
+        txtBairro.setText("");
+    }
+    
     private void btnGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGravarActionPerformed
         if(txtNome.getText().isEmpty()|| txtEndereco.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
@@ -138,12 +196,79 @@ public class ClienteView extends javax.swing.JInternalFrame {
                 
             }
             JOptionPane.showMessageDialog(null, "Gravado com sucesso!");
+            limpaDadosCliente();
         }
     }//GEN-LAST:event_btnGravarActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String cod = JOptionPane.showInputDialog("Digite o código do cliente");
+        cliente = new Cliente();
+        try{
+            cliente = clienteDAO.buscaClienteCodigo(cod);
+        }
+        catch(SQLException ex){
+            //Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        txtCodigo.setText(Integer.toString(cliente.getCodigoCliente()));
+        txtNome.setText(cliente.getNomeCliente());
+        txtEndereco.setText(cliente.getEnderecoCliente());
+        txtBairro.setText(cliente.getBairroCliente());
+    }//GEN-LAST:event_btnBuscarActionPerformed
+    
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        if(txtCodigo.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Selecione um cliente");
+        }
+        else{
+            cliente = new Cliente();
+            cliente.setCodigoCliente(Integer.parseInt(txtCodigo.getText()));
+            int confirma = JOptionPane.showConfirmDialog(null, "Deseja excluir o cliente " + txtNome.getText() + " ?");
+            if(confirma==0){
+                try{
+                    clienteDAO.excluir(cliente);
+                }
+                catch(SQLException ex){
+                    //Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                limpaDadosCliente();
+                JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso!");
+            }
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
+        limpaDadosCliente();
+    }//GEN-LAST:event_btnNovoActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if(txtCodigo.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Selecione um cliente");
+        }
+        else{
+            cliente = new Cliente();
+            cliente.setCodigoCliente(Integer.parseInt(txtCodigo.getText()));
+            cliente.setNomeCliente(txtNome.getText());
+            cliente.setEnderecoCliente(txtEndereco.getText());
+            cliente.setBairroCliente(txtBairro.getText());
+            try{
+                clienteDAO.alterar(cliente);
+            }
+            catch(SQLException ex){
+                //Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            limpaDadosCliente();
+            JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso!");
+        }
+        
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnGravar;
+    private javax.swing.JButton btnNovo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
